@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Petito</title>
+</head>
+<body>
+<h1> Maya's Purchase Page</h1>
+<div id="input">
+    <input type="text" id="input1" placeholder="Input 1">
+    <input type="text" id="input2" placeholder="Input 2">
+    <button onclick="toggleCodeBlock()">Toggle Code Block</button>
+</div>
+
+<div id="codeBlock" style="display: none;">
+    <p>This is the block of code that will be toggled on/off.</p>
+</div>
+
+<script>
+    function toggleCodeBlock() {
+        var input = document.getElementById("input");
+        var codeBlock = document.getElementById("codeBlock");
+        if (codeBlock.style.display === "none") {
+            codeBlock.style.display = "block";
+            input.style.display = "none";
+        } else {
+            codeBlock.style.display = "none";
+        }
+    }
+</script>
+</body>
+</html>

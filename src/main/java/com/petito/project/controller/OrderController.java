@@ -50,7 +50,7 @@ public class OrderController {
         orderRepository.save(order);
         productRepository.save(product);
 
-        return "redirect:/";
+        return "item-purchase";
     }
 
     @GetMapping("/my")
