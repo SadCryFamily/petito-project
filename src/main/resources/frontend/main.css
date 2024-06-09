@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    .form-input {
+        @apply shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none
+    }
+
+    .button-primary {
+        @apply bg-[#232016] text-lg px-3 py-2 font-semibold rounded text-white hover:bg-[#62593d] transition-colors
+    }
+
+    .button-small {
+        @apply bg-[#232016] text-xs text-center px-2 py-1 font-semibold rounded text-white hover:bg-[#62593d] transition-colors
+    }
+
+    .form-label {
+        @apply block text-gray-700 text-sm font-bold mb-2
+    }
+}
+
+
