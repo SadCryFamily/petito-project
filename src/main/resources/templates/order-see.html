@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<html>
+<head>
+    <title>Petito</title>
+    <style>
+        .order-view {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .error-message {
+            color: red;
+            font-size: 24px;
+            font-weight: bold;
+            font-family: Arial, sans-serif;
+        }
+        .back-to-product {
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            text-decoration: none;
+            color: #333;
+            display: block;
+            margin: 20px auto 0;
+            width: 100px;
+        }
+        .product-box {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 10px;
+            margin: 10px auto;
+            width: 300px;
+            text-align: left;
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+<p style="font-size: 24px; font-family: Arial, sans-serif; font-weight: bold;" class="order-view" th:text="#{order.my-orders.label}"/>
+<div class="order-view">
+    <div th:if="${orders.size() == 0}">
+        <p class="error-message" th:text="#{order.my-orders.empty}"></p>
+    </div>
+    <div th:unless="${orders.size() == 0}">
+        <div class="product-box" th:each="order : ${orders}">
+            <p th:text="${order.orderId}"/>
+            <p th:text="${order.product.productType}"/>
+            <p th:text="${order.product.productType}"/>
+            <p th:text="${order.product.description}"/>
+            <p th:text="${order.product.price}"/>
+            <p th:text="${order.status}"/>
+            <p th:text="${order.arriveStatus}"/>
+        </div>
+    </div>
+</div>
+<a class="back-to-product" style="display: flex; justify-content: center;" th:href="@{/}">Back</a>
+</body>
+</html>

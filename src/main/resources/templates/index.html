@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Petito</title>
+    <style>
+        .right-top {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+
+        .top-left {
+            position: fixed;
+            left: 100px;
+            top: 10px;
+            transform: translateX(-50%);
+        }
+        .language-button {
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            font-weight: bold;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            text-decoration: none;
+            color: #333;
+            width: 50px;
+        }
+        .simple-button {
+            font-family: Arial, sans-serif;
+            font-size: 15px;
+            background-color: #fff;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            text-decoration: none;
+            color: #333;
+            width: 70px;
+        }
+        .simple-button:hover {
+            background-color: #0056b3;
+        }
+        .empty-search-box {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 100px auto;
+            width: 80%;
+            max-width: 200px;
+            text-align: left;
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+        }
+        .product-box {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 10px;
+            margin: 10px auto;
+            width: 300px;
+            text-align: left;
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+
+<div class="empty-search-box" style="position: fixed;">
+    <form th:action="@{/}">
+        <label for="minPrice" th:text="#{product.filter.min-price.label}"/>
+        <input type="text" id="minPrice" name="minPrice" th:name="minPrice" th:value="${minPrice} ? ${minPrice} : '0'"><br>
+        <label for="maxPrice" th:text="#{product.filter.max-price.label}"/>
+        <input type="text" id="maxPrice" name="maxPrice" th:name="maxPrice" th:value="${maxPrice} ? ${maxPrice} : '5000'"><br>
+
+        <label style="margin-top: 10px;" for="category-select" th:text="#{product.filter.category.label}"/>
+        <select id="category-select" th:name="category">
+            <option th:text="#{product.filter.category-none}" th:selected="${category == null}"/>
+            <option th:text="#{product.filter.category-cats}" th:selected="${category == '#{product.filter.category-cats}'}"/>
+            <option th:text="#{product.filter.category-dogs}" th:selected="${category == '#{product.filter.category-dogs}'}"/>
+        </select><br>
+
+        <label style="margin-top: 10px;" for="subcategory-select" th:text="#{product.filter.subcategory.label}"/>
+        <select id="subcategory-select" th:name="subcategory">
+            <option th:text="#{product.filter.category-none}" th:selected="${subcategory == null}"/>
+            <option th:text="#{product.filter.subcategory-drug}" th:selected="${subcategory == '#{product.filter.subcategory-drug}'}"/>
+            <option th:text="#{product.filter.subcategory-feed}" th:selected="${subcategory == '#{product.filter.subcategory-feed}'}"/>
+            <option th:text="#{product.filter.subcategory-accessories}" th:selected="${subcategory == '#{product.filter.subcategory-accessories}'}"/>
+            <option th:text="#{product.filter.subcategory-toy}" th:selected="${subcategory == '#{product.filter.subcategory-toy}'}"/>
+        </select><br>
+
+        <label style="margin-top: 10px;" for="brand-name-select" th:text="#{product.filter.brand.label}"/>
+        <select id="brand-name-select" th:name="brandName">
+            <option th:text="#{product.filter.category-none}" th:selected="${subcategory == null}"/>
+            <option th:text="#{product.filter.brand-trixie}" th:selected="${brandName == '#{product.filter.brand-trixie}'}"/>
+            <option th:text="#{product.filter.brand-ferplast}" th:selected="${brandName == '#{product.filter.brand-ferplast}'}"/>
+            <option th:text="#{product.filter.brand-shruno}" th:selected="${brandName == '#{product.filter.brand-shruno}'}"/>
+            <option th:text="#{product.filter.brand-berkie}" th:selected="${brandName == '#{product.filter.brand-berkie}'}"/>
+        </select><br>
+
+        <button class="simple-button" th:text="#{product.filter.button}"/>
+    </form>
+</div>
+
+<div class="right-top">
+    <div th:if="${#authorization.expression('isAuthenticated()')}">
+        <span th:text="${#authentication.principal.username}"></span>
+        <a class="simple-button" th:if="${isAdmin}" th:href="@{/product/create}" th:text="#{admin.create-product.label}"/>
+        <a class="simple-button" th:href="@{/order/my}" th:text="#{order.my-orders.label}"/>
+        <a class="simple-button" th:href="@{/logout}" th:text="#{logout.button-label}"/>
+    </div>
+    <div th:unless="${#authorization.expression('isAuthenticated()')}">
+        <a class="simple-button" th:href="@{/login}" th:text="#{login.button-label}"/>
+    </div>
+</div>
+
+<div style="display: flex; justify-content: center; align-items: center;">
+    <div th:if="${products.empty}">
+        <span th:text="#{product.error.all-empty}"></span>
+    </div>
+    <div th:unless="${products.empty}">
+        <div class="product-box" th:each="product : ${products}">
+            <p style="font-size: 20px; font-weight: bold;" th:text="${product.subcategory.name}"/>
+            <p style="font-size: 20px; font-weight: bold;" th:text="${product.price} + 'UAH'"/>
+            <p style="color: gray;" th:text="${product.description}"/>
+            <p style="color: gray;" th:text="${product.category.name}"/>
+            <p style="color: gray; font-weight: bold;">
+                <span th:text="${product.brand.name}"/> <span th:text="${product.brand.country}"/>
+            </p>
+            <p style="color: gray;" th:text="${product.amount}"/>
+            <p style="color: gray;" th:text="${product.sizes}"/>
+            <p>
+                <form th:action="@{/order/create}" method="post">
+                    <input type="hidden" th:name="id" th:value="${product.id}"/>
+                    <button class="simple-button" type="submit" th:if="${#authorization.expression('isAuthenticated()')}" th:text="#{product.buy.label}"/>
+                    <button class="simple-button" type="submit" th:unless="${#authorization.expression('isAuthenticated()')}" th:text="#{product.buy.label}" disabled/>
+                </form>
+            </p>
+            <p>
+                <a th:href="@{'/product/' + ${product.id} + '/comments'}" th:text="#{comment.view-label}"/>
+            </p>
+
+            <form th:action="@{'/product/delete/' + ${product.id}}" method="post">
+                <button type="submit">Delete</button>
+            </form>
+            <form th:action="@{'/product/edit/' + ${product.id}}" method="post">
+                <button type="submit">Edit</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="top-left">
+    <p>
+        <a class="language-button" th:href="@{/change-locale(lang='us')}" th:text="#{language.us}"/>
+        <a class="language-button" th:href="@{/change-locale(lang='ua')}" th:text="#{language.ua}"/>
+    </p>
+</div>
+</body>
+</html>
