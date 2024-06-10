@@ -4,22 +4,39 @@
     <meta charset="UTF-8">
     <title>Petito</title>
 </head>
+<style>
+
+    .simple-button {
+        font-family: Arial, sans-serif;
+        font-size: 15px;
+        background-color: #fff;
+        border: 2px solid #ccc;
+        border-radius: 5px;
+        text-decoration: none;
+        color: #333;
+        width: 70px;
+    }
+    .simple-button:hover {
+        background-color: #0056b3;
+    }
+</style>
+
 <body>
-<h1> Maya's Purchase Page</h1>
 <div id="input">
-    <input type="text" id="input1" placeholder="Input 1">
-    <input type="text" id="input2" placeholder="Input 2">
-    <button onclick="toggleCodeBlock()">Toggle Code Block</button>
+    <input type="text" id="input1" placeholder="Name & Surname">
+    <input type="text" id="input2" placeholder="Email">
+    <button class="simple-button" onclick="toggle()">BUY</button>
 </div>
 
 <div id="codeBlock" style="display: none;">
-    <p>This is the block of code that will be toggled on/off.</p>
+    <p>Thank you for your purchase!</p>
 </div>
 
 <script>
-    function toggleCodeBlock() {
+    function toggle() {
         var input = document.getElementById("input");
         var codeBlock = document.getElementById("codeBlock");
+
         if (codeBlock.style.display === "none") {
             codeBlock.style.display = "block";
             input.style.display = "none";
@@ -28,5 +45,6 @@
         }
     }
 </script>
+
 </body>
 </html>
